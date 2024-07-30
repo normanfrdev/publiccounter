@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Real-Time Counter</title>
   <style>
     body {
@@ -22,6 +22,12 @@
     h1 {
       z-index: 1;
       position: relative;
+      font-size: 4em;
+    }
+    .counter {
+      transition: opacity 0.5s ease, filter 0.5s ease;
+      filter: blur(5px);
+      opacity: 0;
     }
     button {
       position: absolute;
@@ -38,24 +44,60 @@
 </head>
 <body>
   <div>
-    <h1>Counter: <span id="counter">0</span></h1>
+    <h1>Counter: <span id="counter" class="counter">0</span></h1>
     <button id="incrementButton"></button>
   </div>
 
   <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
   <script>
     const socket = io();
+    const counterElement = document.getElementById("counter");
+    const incrementButton = document.getElementById("incrementButton");
+    let currentCounter = 0;
 
-    const counterElement = document.getElementById('counter');
-    const incrementButton = document.getElementById('incrementButton');
+    function startupAnimation() {
+      counterElement.classList.remove('fade-out');
+      counterElement.style.filter = 'blur(5px)';
+      counterElement.style.opacity = '0';
 
-    socket.on('updateCounter', (counter) => {
-      counterElement.textContent = counter;
+      setTimeout(() => {
+        counterElement.classList.add('fade-in');
+        counterElement.style.filter = 'blur(0)';
+        counterElement.style.opacity = '1';
+      }, 0);
+    }
+
+    window.onload = startupAnimation;
+
+    socket.on("updateCounter", (newCounter) => {
+      animateCounter(currentCounter, newCounter);
+      currentCounter = newCounter;
     });
 
-    incrementButton.addEventListener('click', () => {
-      socket.emit('increment');
+    incrementButton.addEventListener("click", () => {
+      socket.emit("increment");
     });
+
+    function animateCounter(start, end) {
+      const duration = 1000;
+      const frameDuration = 50;
+      const totalFrames = duration / frameDuration;
+      const increment = (end - start) / totalFrames;
+      let currentFrame = 0;
+
+      function updateCounter() {
+        if (currentFrame < totalFrames) {
+          const currentValue = Math.round(start + increment * currentFrame);
+          counterElement.textContent = currentValue;
+          currentFrame++;
+          requestAnimationFrame(updateCounter);
+        } else {
+          counterElement.textContent = end;
+        }
+      }
+
+      requestAnimationFrame(updateCounter);
+    }
   </script>
 </body>
 </html>
