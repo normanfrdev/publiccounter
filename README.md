@@ -1,3 +1,5 @@
+![image](https://i.imgur.com/hbNWGiX.gif)
+
 # Public Counter
 ## A public counter to interact with it.
 
