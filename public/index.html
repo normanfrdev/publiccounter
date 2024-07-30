@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Real-Time Counter</title>
@@ -27,7 +29,7 @@
       background: linear-gradient(135deg, #2c3e50, #34495e, #1abc9c, #2ecc71);
       background-size: 400% 400%;
       animation: moveBackground 40s ease-in-out infinite;
-      z-index: -1;
+      z-index: -10;
     }
     
     @keyframes moveBackground {
@@ -51,6 +53,8 @@
       z-index: 1;
       position: relative;
       font-size: 4em;
+
+      z-index: -5;
     }
 
     .counter {
@@ -68,14 +72,15 @@
       background: transparent;
       border: none;
       cursor: pointer;
-      z-index: 5;
+      z-index: 0;
     }
   </style>
 </head>
 <body>
   <div>
-    <h1>Counter: <span id="counter" class="counter">0</span></h1>
-    <button id="incrementButton"></button>
+  <h1>Counter: <span id="counter" class="counter">0</span></h1>
+  <button id="incrementButton"></button>
+  <a class="github-button" href="https://github.com/normanfrdev" style="z-index: 100;" data-color-scheme="no-preference: light; light: light; dark: dark;" data-size="large" aria-label="Follow @normanfrdev on GitHub">Follow @normanfrdev</a>
   </div>
 
   <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
