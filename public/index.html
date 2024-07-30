@@ -6,7 +6,6 @@
   <title>Real-Time Counter</title>
   <style>
     body {
-      background-color: black;
       margin: 0;
       padding: 0;
       height: 100vh;
@@ -14,21 +13,52 @@
       justify-content: center;
       align-items: center;
       overflow: hidden;
+      position: relative;
+      background: #000;
     }
+
+    body::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, #2c3e50, #34495e, #1abc9c, #2ecc71);
+      background-size: 400% 400%;
+      animation: moveBackground 40s ease-in-out infinite;
+      z-index: -1;
+    }
+    
+    @keyframes moveBackground {
+      0% {
+        background-position: 0% 0%;
+      }
+      50% {
+        background-position: 100% 100%;
+      }
+      100% {
+        background-position: 0% 0%;
+      }
+    }
+
     * {
       color: white;
       font-family: Arial, sans-serif;
     }
+
     h1 {
       z-index: 1;
       position: relative;
       font-size: 4em;
     }
+
     .counter {
       transition: opacity 0.5s ease, filter 0.5s ease;
       filter: blur(5px);
       opacity: 0;
     }
+
     button {
       position: absolute;
       top: 0;
@@ -38,7 +68,7 @@
       background: transparent;
       border: none;
       cursor: pointer;
-      z-index: 0;
+      z-index: 5;
     }
   </style>
 </head>
