@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Real-Time Counter</title>
+  <style>
+    body {
+      background-color: black;
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+    * {
+      color: white;
+      font-family: Arial, sans-serif;
+    }
+    h1 {
+      z-index: 1;
+      position: relative;
+    }
+    button {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      z-index: 0;
+    }
+  </style>
+</head>
+<body>
+  <div>
+    <h1>Counter: <span id="counter">0</span></h1>
+    <button id="incrementButton"></button>
+  </div>
+
+  <!-- Use CDN to include Socket.io client library -->
+  <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
+  <script>
+    const socket = io("https://public-counter.vercel.app/");
+
+    const counterElement = document.getElementById('counter');
+    const incrementButton = document.getElementById('incrementButton');
+
+    socket.on('updateCounter', (counter) => {
+      counterElement.textContent = counter;
+    });
+
+    incrementButton.addEventListener('click', () => {
+      socket.emit('increment');
+    });
+  </script>
+</body>
+</html>
